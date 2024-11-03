@@ -21,13 +21,13 @@ public class Main {
             System.out.println("11. Salir");
             System.out.print("Selecciona una opción: ");
             opcion = scanner.nextInt();
-            scanner.nextLine(); // Limpiar el buffer
+            scanner.nextLine(); 
 
             switch (opcion) {
                 case 1:
                     System.out.print("Título: ");
                     String titulo = scanner.nextLine();
-                    System.out.print("Duración (en segundos): ");
+                    System.out.print("Duración (en minutos): ");
                     int duracion = scanner.nextInt();
                     System.out.print("ID del Álbum: ");
                     int idAlbum = scanner.nextInt();
@@ -36,18 +36,38 @@ public class Main {
                     System.out.print("ID del Género: ");
                     int idGenero = scanner.nextInt();
                     bd.agregarCancion(titulo, duracion, idAlbum, idArtista, idGenero);
+                    System.out.println("Cancion Agregada. Lista:");
                     break;
 
                 case 2:
-                    System.out.println("Canciones:");
-                    bd.consultarCanciones().forEach(System.out::println);
+                    System.out.print("Titulo: ");
+                    String consultarTitulo = scanner.nextLine();
+                    consultarTitulo = consultarTitulo.isEmpty() ? null : consultarTitulo;
+
+                    System.out.print("Artista: ");
+                    String consultarArtista = scanner.nextLine();
+                    consultarArtista = consultarArtista.isEmpty() ? null : consultarArtista;
+
+                    // System.out.print("Album: ");
+                    // String consultarAlbum = scanner.nextLine();
+                    // consultarAlbum = consultarAlbum.isEmpty() ? null : consultarAlbum;
+
+                    // System.out.print("Genero: ");
+                    // String consultarGenero = scanner.nextLine();
+                    // consultarGenero = consultarGenero.isEmpty() ? null : consultarGenero;
+                
+                   // System.out.println("Nacionalidad del artista: ");
+                   // String consultarNacionA = scanner.next();
+                    //System.out.println("Anio de lanzamiento del album: ");
+                   // int consultarAnioLanzamiento = scanner.nextInt();
+                    bd.consultaCanciones(consultarTitulo, consultarArtista).forEach(System.out::println);
                     break;
 
                 case 3:
                     System.out.print("ID de la Canción a editar: ");
                     int idEditar = scanner.nextInt();
                     System.out.print("Nuevo Título: ");
-                    scanner.nextLine(); // Limpiar el buffer
+                    scanner.nextLine(); 
                     String nuevoTitulo = scanner.nextLine();
                     System.out.print("Nueva Duración: ");
                     int nuevaDuracion = scanner.nextInt();

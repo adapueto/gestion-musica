@@ -1,11 +1,14 @@
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 class Cancion {  //Cancion
     private int id;
     private String titulo;
-    private int duracion; // en segundos
+    private int duracion; // en minutos
     private int idAlbum;
     private int idArtista;
     private int idGenero;
@@ -61,8 +64,6 @@ class Album {
         this.generoPrincipal = generoPrincipal;
     }
 
-    // Getters y Setters
-
     @Override
     public String toString() {
         return "Album{" +
@@ -73,6 +74,46 @@ class Album {
                 ", generoPrincipal='" + generoPrincipal + '\'' +
                 '}';
     }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getTitulo() {
+        return titulo;
+    }
+
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
+    }
+
+    public int getAnioLanzamiento() {
+        return anioLanzamiento;
+    }
+
+    public void setAnioLanzamiento(int anioLanzamiento) {
+        this.anioLanzamiento = anioLanzamiento;
+    }
+
+    public int getIdArtista() {
+        return idArtista;
+    }
+
+    public void setIdArtista(int idArtista) {
+        this.idArtista = idArtista;
+    }
+
+    public String getGeneroPrincipal() {
+        return generoPrincipal;
+    }
+
+    public void setGeneroPrincipal(String generoPrincipal) {
+        this.generoPrincipal = generoPrincipal;
+    }
 }
 
 class Artista {
@@ -80,7 +121,7 @@ class Artista {
     private String nombre;
     private String fechaNacimiento;
     private String nacionalidad;
-    private String generos; // Puede ser una lista separada por comas
+    private String generos; 
 
     public Artista(int id, String nombre, String fechaNacimiento, String nacionalidad, String generos) {
         this.id = id;
@@ -90,7 +131,7 @@ class Artista {
         this.generos = generos;
     }
 
-    // Getters y Setters
+    
 
     @Override
     public String toString() {
@@ -101,6 +142,46 @@ class Artista {
                 ", nacionalidad='" + nacionalidad + '\'' +
                 ", generos='" + generos + '\'' +
                 '}';
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getFechaNacimiento() {
+        return fechaNacimiento;
+    }
+
+    public void setFechaNacimiento(String fechaNacimiento) {
+        this.fechaNacimiento = fechaNacimiento;
+    }
+
+    public String getNacionalidad() {
+        return nacionalidad;
+    }
+
+    public void setNacionalidad(String nacionalidad) {
+        this.nacionalidad = nacionalidad;
+    }
+
+    public String getGeneros() {
+        return generos;
+    }
+
+    public void setGeneros(String generos) {
+        this.generos = generos;
     }
 }
 
@@ -115,7 +196,7 @@ class Genero {
         this.descripcion = descripcion;
     }
 
-    // Getters y Setters
+    
 
     @Override
     public String toString() {
@@ -124,6 +205,30 @@ class Genero {
                 ", nombreGenero='" + nombreGenero + '\'' +
                 ", descripcion='" + descripcion + '\'' +
                 '}';
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getNombreGenero() {
+        return nombreGenero;
+    }
+
+    public void setNombreGenero(String nombreGenero) {
+        this.nombreGenero = nombreGenero;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
     }
 }
 
@@ -167,9 +272,83 @@ public class Basededatos {
         canciones.removeIf(c -> c.getId() == id);
     }
 
-    public List<Cancion> consultarCanciones() {
-        return canciones;
+
+    public List<Cancion> consultaCanciones(String titulo, String artista) {
+    
+        Stream<Cancion> stream = canciones.stream()
+                .filter(c -> (c.getTitulo() == null || c.getTitulo().equalsIgnoreCase(titulo)));
+
+        // Filtrar por artista si se proporciona
+        if (artista != null) {
+            System.out.println("Buscando artista: " + artista);
+            Optional<Artista> artisOptional = artistas.stream()
+                .filter(a -> a.getNombre().equalsIgnoreCase(artista))
+                .findFirst();
+
+            if (artisOptional.isPresent()) {
+                int idArtistaBuscado = artisOptional.get().getId();
+                System.out.println("Artista encontrado: " + artisOptional.get().getNombre() + " con ID: " + idArtistaBuscado);
+
+                // Imprimir IDs de artista de cada canción y comparar
+                System.out.println("Comparando ID del artista buscado con IDs de canciones:");
+                canciones.forEach(c -> {
+                    int idArtistaCancion = c.getIdArtista();
+                    System.out.println("Canción: " + c.getTitulo() + ", ID Artista: " + idArtistaCancion);
+
+                    // Comparar IDs
+                    if (idArtistaCancion == idArtistaBuscado) {
+                        System.out.println(" - Coincidencia encontrada: " + c.getTitulo());
+                    }
+                });
+
+                // Filtrar las canciones por ID del artista
+                //stream = stream.filter(c -> c.getIdArtista() == idArtistaBuscado);
+                long cantidadCanciones = stream.filter(c -> c.getIdArtista() == idArtistaBuscado).count();
+                System.out.println("Número de canciones encontradas: " + cantidadCanciones);
+                    if (cantidadCanciones > 0) {
+                        System.out.println("Se encontraron canciones.");
+                    } else {
+                        System.out.println("No se encontraron canciones.");
+                    }
+
+            } else {
+                System.out.println("No se encontró el artista: " + artista);
+                return Collections.emptyList(); // Si no se encuentra el artista, devuelve lista vacía
+            }
+        }
+
+        // Filtrar por álbum si se proporciona
+        // if (album != null) {
+        //     Optional<Album> albumOptional = albums.stream()
+        //         .filter(a -> a.getTitulo().equalsIgnoreCase(album))
+        //         .findFirst();
+
+        //     if (albumOptional.isPresent()) {
+        //         int idAlbum = albumOptional.get().getId();
+        //         stream = stream.filter(c -> c.getIdAlbum() == idAlbum);
+        //     } else {
+        //         return Collections.emptyList(); // Si no se encuentra el álbum, devuelve lista vacía
+        //     }
+        // }
+
+        // Filtrar por género si se proporciona
+        // if (genero != null) {
+        //     Optional<Genero> generoOptional = generos.stream()
+        //         .filter(g -> g.getNombreGenero().equalsIgnoreCase(genero))
+        //         .findFirst();
+
+        //     if (generoOptional.isPresent()) {
+        //         int idGenero = generoOptional.get().getId();
+        //         stream = stream.filter(c -> c.getIdGenero() == idGenero);
+        //     } else {
+        //         return Collections.emptyList(); // Si no se encuentra el género, devuelve lista vacía
+        //     }
+        // }
+
+        // Recoge el resultado final
+        return stream.collect(Collectors.toList());
     }
+
 
     public void agregarAlbum(String titulo, int anioLanzamiento, int idArtista, String generoPrincipal) {
         Album nuevoAlbum = new Album(nextAlbumId++, titulo, anioLanzamiento, idArtista, generoPrincipal);
