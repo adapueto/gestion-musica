@@ -44,6 +44,7 @@ public class BaseDatos {
         System.out.println("Datos de ejemplo cargados en el sistema.");
     }
 
+    // metodo para guardar datos json
     public void guardarDatosComoJson(String nombreArchivo) {
         StringBuilder jsonBuilder = new StringBuilder();
         jsonBuilder.append("{\n");
