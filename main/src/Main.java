@@ -146,8 +146,8 @@ public class Main {
                 case 7:
                     System.out.print("Nombre del Artista: ");
                     String nombreArtista = scanner.nextLine();
-                    System.out.print("Fecha de Nacimiento: ");
-                    String fechaNacimiento = scanner.nextLine();
+                    System.out.print("Fecha de Nacimiento (dd-MM-yyyy): ");
+                    String fechaNacimiento = EntradaValidator.pedirFechaNacimiento(scanner);
                     System.out.print("Nacionalidad: ");
                     String nacionalidad = EntradaValidator.pedirNacionalidad(scanner);
                     System.out.print("Géneros: ");
@@ -172,6 +172,7 @@ public class Main {
                         System.out.println("No se encontraron artistas con los criterios especificados.");
                     } else {
                         resultadosArtista.forEach(artista -> System.out.println("Artista encontrado: " + artista.getNombre() +
+                                " - Fecha Nacimiento: " + artista.getFechaNacimiento() +
                                 " - Nacionalidad: " + artista.getNacionalidad() +
                                 " - Género: " + artista.getGeneros()));
                     }
@@ -238,7 +239,8 @@ public class Main {
 
                 case 12:
                     System.out.println("Géneros:");
-                    bd.consultarGeneros().forEach(System.out::println);
+                    bd.consultarGeneros().forEach(genero -> System.out.println("Artista encontrado: " + genero.getNombreGenero() +
+                                            " -Descripcion: " + genero.getDescripcion()));
                     break;
                 case 13:
                     System.out.println("¿Qué deseas listar?");
@@ -263,7 +265,11 @@ public class Main {
                             scanner.nextLine(); // Limpiar el buffer
 
                             bd.listarCanciones(filtroTituloCancion, filtroGeneroCancion, filtroDuracion, ordenarPorTituloCancion)
-                                    .forEach(cancion -> System.out.println("Canción: " + cancion.getTitulo() + ", Duración: " + cancion.getDuracion()));
+                                    .forEach(cancion -> System.out.println("Canción encontrada: " + cancion.getTitulo() +
+                                                " Duracion:" + cancion.getDuracion() + " segundos" +
+                                                " Artista: " + bd.obtenerArtistaPorId(cancion.getIdArtista()).getNombre() +
+                                                " Album: " + bd.obtenerAlbumPorId(cancion.getIdAlbum()).getTitulo() +
+                                                " Genero: " + bd.obtenerGeneroPorId(cancion.getIdGenero()).getNombreGenero()));
                             break;
 
                         case 2: // Listar Álbumes
@@ -281,7 +287,10 @@ public class Main {
                             scanner.nextLine(); // Limpiar el buffer
 
                             bd.listarAlbumes(filtroTituloAlbum, filtroGeneroAlbum, filtroAnioLanzamiento,filtroArtistaNombreAlbum, ordenarPorTituloAlbum)
-                                    .forEach(album -> System.out.println("Álbum: " + album.getTitulo() + ", Año de lanzamiento: " + album.getAnioLanzamiento()));
+                                    .forEach(album -> System.out.println("Álbum encontrado: " + album.getTitulo() +
+                                " - Artista: " + bd.obtenerArtistaPorId(album.getIdArtista()).getNombre() +
+                                " - Año: " + album.getAnioLanzamiento() +
+                                " - Género: " + album.getGeneroPrincipal()));
                             break;
 
                         case 3: // Listar Artistas
@@ -296,7 +305,10 @@ public class Main {
                             scanner.nextLine(); // Limpiar el buffer
 
                             bd.listarArtistas(filtroNombreArtista, filtroNacionalidadArtista, filtroGeneroArtista, ordenarPorNombreArtista)
-                                    .forEach(artista -> System.out.println("Artista: " + artista.getNombre() + ", Nacionalidad: " + artista.getNacionalidad() + ", Género: " + artista.getGeneros()));
+                                    .forEach(artista -> System.out.println("Artista encontrado: " + artista.getNombre() +
+                                " - Fecha Nacimiento: " + artista.getFechaNacimiento() +
+                                " - Nacionalidad: " + artista.getNacionalidad() +
+                                " - Género: " + artista.getGeneros()));
                             break;
 
                         default:
