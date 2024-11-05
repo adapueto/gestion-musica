@@ -74,12 +74,14 @@ public class BaseDeDatos {
         int artistaId = artistas.size() + 1;
         Artista nuevoArtista = new Artista(artistaId, nombre, fechaNacimiento, nacionalidad, generos);
         artistas.add(nuevoArtista);
+        System.out.println("Artista agregado/a correctamente: " + nombre);
     }
 
         public void agregarGenero(String nombreGenero, String descripcion) {
         int generoId = generos.size() + 1;
         Genero nuevoGenero = new Genero(generoId, nombreGenero, descripcion);
         generos.add(nuevoGenero);
+        System.out.println("Genero agregado correctamente: " + nombreGenero);
     }
 
     public List<Cancion> buscarCanciones(String titulo, String nombreArtista, String nombreAlbum, String nombreGenero) {

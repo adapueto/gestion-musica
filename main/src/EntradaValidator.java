@@ -56,10 +56,39 @@ public class EntradaValidator {
                 // Si la entrada no es un número entero, capturamos la excepción
                 System.out.println("Entrada no válida. Por favor, ingrese un número entero.");
                 scanner.nextLine();  // Limpiar el buffer del scanner
+            } catch (NumberFormatException e) {
+            // Capturamos excepciones cuando Integer.parseInt falla
+                System.out.println("Entrada no válida. Por favor, ingrese un número entero.");
+                //scanner.nextLine();  // Limpiamos el buffer de scanner
             }
         }
 
         return validationNumber;
+    }
+
+    public static String pedirNacionalidad(Scanner scanner) {
+        String nacionalidad = null;
+        boolean entradaValida = false;
+
+        while (!entradaValida) {
+            try {
+                
+                nacionalidad = scanner.nextLine();
+
+                // Validamos que no haya números en la nacionalidad
+                if (nacionalidad.matches(".*\\d.*")) {  // Regex para encontrar números
+                    throw new IllegalArgumentException("La nacionalidad no puede contener números. Por favor, ingrese una nacionalidad válida.");
+                }
+
+                entradaValida = true;  // Si pasa la validación, salimos del bucle
+
+            } catch (IllegalArgumentException e) {
+                // Si hay un error (por ejemplo, si la entrada contiene números)
+                System.out.println(e.getMessage());
+            }
+        }
+
+        return nacionalidad;
     }
 
     

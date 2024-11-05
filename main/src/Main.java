@@ -149,7 +149,7 @@ public class Main {
                     System.out.print("Fecha de Nacimiento: ");
                     String fechaNacimiento = scanner.nextLine();
                     System.out.print("Nacionalidad: ");
-                    String nacionalidad = scanner.nextLine();
+                    String nacionalidad = EntradaValidator.pedirNacionalidad(scanner);
                     System.out.print("Géneros: ");
                     String generosArtista = scanner.nextLine();
                     bd.agregarArtista(nombreArtista, fechaNacimiento, nacionalidad, generosArtista);
@@ -159,8 +159,10 @@ public class Main {
                     System.out.println("Ingresa los criterios de búsqueda para el artista (deja en blanco para ignorar):");
                     System.out.print("Nombre del artista: ");
                     String ArtistaConsultanombre = scanner.nextLine();
+                    
                     System.out.print("Nacionalidad del artista: ");
-                    String nacionalidadArtista = scanner.nextLine();
+                    String nacionalidadArtista = EntradaValidator.pedirNacionalidad(scanner);
+
                     System.out.print("Género principal del artista: ");
                     String generoArtista = scanner.nextLine();
 
