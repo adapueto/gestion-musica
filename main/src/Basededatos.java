@@ -83,7 +83,7 @@ public class BaseDeDatos {
     }
 
     public List<Cancion> buscarCanciones(String titulo, String nombreArtista, String nombreAlbum, String nombreGenero) {
-        return canciones.stream()
+        List<Cancion> resultado = canciones.stream()
                 .filter(cancion -> (titulo == null || titulo.isEmpty() || cancion.getTitulo().equalsIgnoreCase(titulo)))
                 .filter(cancion -> {
                     if (nombreArtista == null || nombreArtista.isEmpty()) return true;
@@ -101,6 +101,11 @@ public class BaseDeDatos {
                     return genero != null && genero.getNombreGenero().equalsIgnoreCase(nombreGenero);
                 })
                 .collect(Collectors.toList());
+
+        if (resultado.isEmpty()) {
+            System.out.println("No se encontraron coincidencias");
+        }
+        return resultado;
     }
 
     public boolean editarCancion(Integer id, String titulo, Integer nuevaDuracion, Integer nuevoIdAlbum, Integer nuevoIdArtista, Integer nuevoIdGenero) {
@@ -317,14 +322,14 @@ public class BaseDeDatos {
                 .orElse(null);
     }
 
-    private Album obtenerAlbumPorId(int idAlbum) {
+    public Album obtenerAlbumPorId(int idAlbum) {
         return albums.stream()
                 .filter(album -> album.getId() == idAlbum)
                 .findFirst()
                 .orElse(null);
     }
 
-    private Genero obtenerGeneroPorId(int idGenero) {
+    public Genero obtenerGeneroPorId(int idGenero) {
         return generos.stream()
                 .filter(genero -> genero.getId() == idGenero)
                 .findFirst()
