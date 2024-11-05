@@ -2,7 +2,7 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        BaseDeDatos bd = new BaseDeDatos();
+        BaseDatos bd = new BaseDatos();
         GestorMusica gestor = new GestorMusica(bd);
         bd.guardarDatosComoJson("datos_guardados_inicial.json");
         Scanner scanner = new Scanner(System.in);

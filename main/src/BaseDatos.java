@@ -5,13 +5,13 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class BaseDeDatos {
+public class BaseDatos {
     private List<Cancion> canciones = new ArrayList<>();
     private List<Album> albums = new ArrayList<>();
     private List<Artista> artistas = new ArrayList<>();
     private List<Genero> generos = new ArrayList<>();
 
-    public BaseDeDatos() {
+    public BaseDatos() {
         cargarDatosEjemplo(); // Llama a cargar datos de ejemplo automáticamente
     }
 
