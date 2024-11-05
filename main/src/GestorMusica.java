@@ -2,9 +2,9 @@ import java.util.List;
 import java.util.Scanner;
 
 public class GestorMusica {
-    private BaseDeDatos bd;
+    private  BaseDatos bd;
 
-    public GestorMusica(BaseDeDatos bd) {
+    public GestorMusica(BaseDatos bd) {
         this.bd = bd;
     }
 
