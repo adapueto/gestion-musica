@@ -32,13 +32,15 @@ public class Main {
                     System.out.print("Título: ");
                     String titulo = scanner.nextLine();
                     System.out.print("Duración (en segundos): ");
-                    int duracion = scanner.nextInt();
+                    int duracion = EntradaValidator.validationInt(scanner);
+
                     System.out.print("ID del Álbum: ");
-                    int idAlbum = scanner.nextInt();
+                    int idAlbum = EntradaValidator.validationInt(scanner);
                     System.out.print("ID del Artista: ");
-                    int idArtista = scanner.nextInt();
+                    int idArtista = EntradaValidator.validationInt(scanner);
+
                     System.out.print("ID del Género: ");
-                    int idGenero = scanner.nextInt();
+                    int idGenero = EntradaValidator.validationInt(scanner);
                     bd.agregarCancion(titulo, duracion, idAlbum, idArtista, idGenero);
                     break;
 
@@ -54,44 +56,52 @@ public class Main {
                     String nombreGeneroConsulta = scanner.nextLine();
 
                     bd.buscarCanciones(tituloBusqueda, nombreArtistaConsulta, nombreAlbumConsulta, nombreGeneroConsulta).forEach(cancion ->
-                            System.out.println("Canción encontrada: " + cancion.getTitulo())
+                            System.out.println("Canción encontrada: " + cancion.getTitulo() +
+                                                " Duracion:" + cancion.getDuracion() + " segundos" +
+                                                " Artista: " + bd.obtenerArtistaPorId(cancion.getIdArtista()).getNombre() +
+                                                " Album: " + bd.obtenerAlbumPorId(cancion.getIdAlbum()).getTitulo() +
+                                                " Genero: " + bd.obtenerGeneroPorId(cancion.getIdGenero()).getNombreGenero())
                     );
                     break;
 
                 case 3:
                     System.out.print("Ingresa el ID de la canción (o deja en blanco para usar el título): ");
-                    String idInput = scanner.nextLine();
-                    Integer id = idInput.isEmpty() ? null : Integer.parseInt(idInput);
+                    Integer id = EntradaValidator.validationInt(scanner, false, true);
 
-                    System.out.print("Ingresa el título de la canción (deja en blanco si usas el ID): ");
-                    String tituloEditar = scanner.nextLine();
+
+                    String tituloEditar = null;  // Declarar una variable para el título
+
+                    // Comprobar si el ID está vacío
+                    if (id == null) {
+                        System.out.print("Ingresa el título de la canción (deja en blanco si usas el ID): ");
+                        tituloEditar = scanner.nextLine(); 
+                    } 
 
                     System.out.print("Nueva duración (deja en blanco para no cambiar): ");
-                    String duracionInput = scanner.nextLine();
-                    Integer nuevaDuracion = duracionInput.isEmpty() ? null : Integer.parseInt(duracionInput);
+                    Integer nuevaDuracion = EntradaValidator.validationInt(scanner, false, true);
 
                     System.out.print("Nuevo ID del álbum (deja en blanco para no cambiar): ");
-                    String albumInput = scanner.nextLine();
-                    Integer nuevoIdAlbum = albumInput.isEmpty() ? null : Integer.parseInt(albumInput);
+                    Integer nuevoIdAlbum = EntradaValidator.validationInt(scanner, false, true);
 
                     System.out.print("Nuevo ID del artista (deja en blanco para no cambiar): ");
-                    String artistaInput = scanner.nextLine();
-                    Integer nuevoIdArtista = artistaInput.isEmpty() ? null : Integer.parseInt(artistaInput);
+                    Integer nuevoIdArtista = EntradaValidator.validationInt(scanner, false, true);
 
                     System.out.print("Nuevo ID del género (deja en blanco para no cambiar): ");
-                    String generoInput = scanner.nextLine();
-                    Integer nuevoIdGenero = generoInput.isEmpty() ? null : Integer.parseInt(generoInput);
+                    Integer nuevoIdGenero = EntradaValidator.validationInt(scanner, false, true);
 
                     bd.editarCancion(id, tituloEditar, nuevaDuracion, nuevoIdAlbum, nuevoIdArtista, nuevoIdGenero);
                     break;
 
                 case 4:
                     System.out.print("Ingresa el ID de la canción (o deja en blanco para usar el título): ");
-                    String eliminarIdInput = scanner.nextLine();
-                    Integer eliminarId = eliminarIdInput.isEmpty() ? null : Integer.parseInt(eliminarIdInput);
+                    Integer eliminarId = EntradaValidator.validationInt(scanner, false, true);
+                    String eliminarTitulo = null;  // Declarar una variable para el título
 
-                    System.out.print("Ingresa el título de la canción (deja en blanco si usas el ID): ");
-                    String eliminarTitulo = scanner.nextLine();
+                    // Comprobar si el ID está vacío
+                    if (eliminarId == null) {
+                        System.out.print("Ingresa el título de la canción (deja en blanco si usas el ID): ");
+                        eliminarTitulo = scanner.nextLine(); 
+                    } 
 
                     bd.eliminarCancion(eliminarId, eliminarTitulo);
                     break;
@@ -100,9 +110,9 @@ public class Main {
                     System.out.print("Título del Álbum: ");
                     String tituloAlbum = scanner.nextLine();
                     System.out.print("Año de Lanzamiento: ");
-                    int anioLanzamiento = scanner.nextInt();
+                    int anioLanzamiento = EntradaValidator.validationInt(scanner, true);
                     System.out.print("ID del Artista: ");
-                    int idArtistaAlbum = scanner.nextInt();
+                    int idArtistaAlbum = EntradaValidator.validationInt(scanner);
                     System.out.print("Género Principal: ");
                     String generoPrincipal = scanner.next();
                     bd.agregarAlbum(tituloAlbum, anioLanzamiento, idArtistaAlbum, generoPrincipal);
@@ -113,8 +123,7 @@ public class Main {
                     System.out.print("Título del álbum: ");
                     String tituloAlbumConsulta = scanner.nextLine();
                     System.out.print("Año de lanzamiento: ");
-                    String anioLanzamientoInput = scanner.nextLine();
-                    Integer anioLanzamientoConsulta = anioLanzamientoInput.isEmpty() ? null : Integer.parseInt(anioLanzamientoInput);
+                    Integer anioLanzamientoConsulta = EntradaValidator.validationInt(scanner, true, true);
 
                     System.out.print("Nombre del artista: ");
                     String ArtistaConsulta = scanner.nextLine();
@@ -166,30 +175,38 @@ public class Main {
                     }
                     break;
                 case 9: // Editar Álbum
+                    // Leer el ID del álbum
                     System.out.print("Ingresa el ID del álbum (o deja en blanco para usar el título): ");
-                    String idAlbumInput = scanner.nextLine();
-                    Integer idAlbumEdit = idAlbumInput.isEmpty() ? null : Integer.parseInt(idAlbumInput);
+                    Integer idAlbumEdit = EntradaValidator.validationInt(scanner, false, true);
 
-                    System.out.print("Ingresa el título del álbum (deja en blanco si usas el ID): ");
-                    String tituloAlbumEdit = scanner.nextLine();
+                    // Leer el título del álbum si no se usa ID
+                    String tituloAlbumEdit = null;  // Declarar la variable para el título
+                    if (idAlbumEdit == null) {
+                        System.out.print("Ingresa el título del álbum (deja en blanco si usas el ID): ");
+                        tituloAlbumEdit = scanner.nextLine();  // Leer el título si el ID está vacío
+                    }
 
+                    // Leer el nuevo título del álbum
                     System.out.print("Nuevo título del álbum (deja en blanco para no cambiar): ");
                     String nuevoTituloAlbum = scanner.nextLine();
 
+                    // Leer el nuevo año de lanzamiento
                     System.out.print("Nuevo año de lanzamiento (deja en blanco para no cambiar): ");
-                    String nuevoAnioInput = scanner.nextLine();
-                    Integer nuevoAnioLanzamiento = nuevoAnioInput.isEmpty() ? null : Integer.parseInt(nuevoAnioInput);
+                    Integer nuevoAnioLanzamiento = EntradaValidator.validationInt(scanner, true, true);
 
+                    // Leer el nuevo género principal
                     System.out.print("Nuevo género principal del álbum (deja en blanco para no cambiar): ");
                     String nuevoGeneroPrincipal = scanner.nextLine();
 
+                    // Llamar al método para editar el álbum
                     bd.editarAlbum(idAlbumEdit, tituloAlbumEdit, nuevoTituloAlbum, nuevoAnioLanzamiento, nuevoGeneroPrincipal);
+
                     break;
 
                 case 10: // Editar Artista
                     System.out.print("Ingresa el ID del artista (o deja en blanco para usar el nombre): ");
                     String idArtistaInput = scanner.nextLine();
-                    Integer idArtistaEdit = idArtistaInput.isEmpty() ? null : Integer.parseInt(idArtistaInput);
+                    Integer idArtistaEdit = idArtistaInput.isEmpty() ? null : EntradaValidator.validationInt(scanner);
 
                     System.out.print("Ingresa el nombre del artista (deja en blanco si usas el ID): ");
                     String nombreArtistaEdit = scanner.nextLine();
