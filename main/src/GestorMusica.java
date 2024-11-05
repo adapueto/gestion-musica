@@ -208,20 +208,24 @@ public class GestorMusica {
 
     public void modificarArtista(Scanner scanner){
         System.out.print("Ingresa el ID del artista (o deja en blanco para usar el nombre): ");
-        String idArtistaInput = scanner.nextLine();
-        Integer idArtistaEdit = idArtistaInput.isEmpty() ? null : EntradaValidator.validationInt(scanner);
+        Integer idArtistaEdit = EntradaValidator.validationInt(scanner, false, true);
 
-        System.out.print("Ingresa el nombre del artista (deja en blanco si usas el ID): ");
-        String nombreArtistaEdit = scanner.nextLine();
-
+        // Leer el título del álbum si no se usa ID
+        String nombreArtistaEdit = null;  // Declarar la variable para el título
+        if (idArtistaEdit == null) {
+            System.out.print("Ingresa el título del álbum (deja en blanco si usas el ID): ");
+            nombreArtistaEdit = scanner.nextLine();  // Leer el título si el ID está vacío
+        }
+ 
+        
         System.out.print("Nuevo nombre del artista (deja en blanco para no cambiar): ");
         String nuevoNombreArtista = scanner.nextLine();
 
-        System.out.print("Nueva fecha de nacimiento del artista (YYYY-MM-DD, deja en blanco para no cambiar): ");
-        String nuevaFechaNacimiento = scanner.nextLine();
+        System.out.print("Nueva fecha de nacimiento del artista ((dd-MM-yyyy, deja en blanco para no cambiar): ");
+        String nuevaFechaNacimiento = EntradaValidator.pedirFechaNacimiento(scanner);
 
         System.out.print("Nueva nacionalidad del artista (deja en blanco para no cambiar): ");
-        String nuevaNacionalidad = scanner.nextLine();
+        String nuevaNacionalidad = EntradaValidator.pedirNacionalidad(scanner);
 
         System.out.print("Nuevo género principal del artista (deja en blanco para no cambiar): ");
         String nuevoGeneroArtista = scanner.nextLine();
