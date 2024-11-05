@@ -1,3 +1,5 @@
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -40,6 +42,68 @@ public class BaseDeDatos {
         canciones.add(billieJean);
 
         System.out.println("Datos de ejemplo cargados en el sistema.");
+    }
+
+    public void guardarDatosComoJson(String nombreArchivo) {
+        StringBuilder jsonBuilder = new StringBuilder();
+        jsonBuilder.append("{\n");
+
+        jsonBuilder.append("  \"generos\": [\n");
+        for (Genero genero : generos) {
+            jsonBuilder.append("    {\"id\": ").append(genero.getId())
+                .append(", \"nombre\": \"").append(genero.getNombreGenero())
+                .append("\", \"descripcion\": \"").append(genero.getDescripcion())
+                .append("\"},\n");
+        }
+        jsonBuilder.setLength(jsonBuilder.length() - 2); // Remove last comma
+        jsonBuilder.append("\n  ],\n");
+
+        jsonBuilder.append("  \"artistas\": [\n");
+        for (Artista artista : artistas) {
+            jsonBuilder.append("    {\"id\": ").append(artista.getId())
+                .append(", \"nombre\": \"").append(artista.getNombre())
+                .append("\", \"fechaNacimiento\": \"").append(artista.getFechaNacimiento())
+                .append("\", \"nacionalidad\": \"").append(artista.getNacionalidad())
+                .append("\", \"genero\": \"").append(artista.getGeneros())
+                .append("\"},\n");
+        }
+        jsonBuilder.setLength(jsonBuilder.length() - 2);
+        jsonBuilder.append("\n  ],\n");
+
+        jsonBuilder.append("  \"albums\": [\n");
+        for (Album album : albums) {
+            jsonBuilder.append("    {\"id\": ").append(album.getId())
+                .append(", \"titulo\": \"").append(album.getTitulo())
+                .append("\", \"anioLanzamiento\": ").append(album.getAnioLanzamiento())
+                .append(", \"idArtista\": ").append(album.getIdArtista())
+                .append(", \"generoPrincipal\": \"").append(album.getGeneroPrincipal())
+                .append("\"},\n");
+        }
+        jsonBuilder.setLength(jsonBuilder.length() - 2);
+        jsonBuilder.append("\n  ],\n");
+
+        jsonBuilder.append("  \"canciones\": [\n");
+        for (Cancion cancion : canciones) {
+            jsonBuilder.append("    {\"id\": ").append(cancion.getId())
+                .append(", \"titulo\": \"").append(cancion.getTitulo())
+                .append("\", \"duracion\": ").append(cancion.getDuracion())
+                .append(", \"idAlbum\": ").append(cancion.getIdAlbum())
+                .append(", \"idArtista\": ").append(cancion.getIdArtista())
+                .append(", \"idGenero\": ").append(cancion.getIdGenero())
+                .append("},\n");
+        }
+        jsonBuilder.setLength(jsonBuilder.length() - 2);
+        jsonBuilder.append("\n  ]\n");
+
+        jsonBuilder.append("}");
+
+        // Escribir el JSON al archivo
+        try (FileWriter file = new FileWriter(nombreArchivo)) {
+            file.write(jsonBuilder.toString());
+            System.out.println("Datos guardados en el archivo " + nombreArchivo);
+        } catch (IOException e) {
+            System.out.println("Error al guardar los datos en JSON.");
+        }
     }
 
     //Case 1
