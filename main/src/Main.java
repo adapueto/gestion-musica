@@ -9,24 +9,7 @@ public class Main {
         int opcion;
 
         do {
-            // System.out.println("Sistema de Gestión de Música");
-            // System.out.println("1. Agregar Canción");
-            // System.out.println("2. Consultar Canciones");
-            // System.out.println("3. Editar Canción");
-            // System.out.println("4. Eliminar Canción");
-            // System.out.println("5. Agregar Álbum");
-            // System.out.println("6. Consultar Álbumes");
-            // System.out.println("7. Agregar Artista");
-            // System.out.println("8. Consultar Artistas");
-            // System.out.println("9. Editar Album");
-            // System.out.println("10. Editar Artista");
-            // System.out.println("11. Agregar Género");
-            // System.out.println("12. Consultar Géneros");
-            // System.out.println("13. Listas de todo");
-            // System.out.println("14. Salir");
-            // System.out.print("Selecciona una opción: ");
-            // opcion = scanner.nextInt();
-            // scanner.nextLine(); // Limpiar el buffer
+            
             System.out.println("-----------------------------");
             System.out.println("Sistema de Gestión de Música");
             System.out.println("-----------------------------");
@@ -39,7 +22,7 @@ public class Main {
             System.out.println("7. Salir");
             System.out.print("Selecciona una opción: ");
             opcion = scanner.nextInt();
-            scanner.nextLine(); // Limpiar el buffer
+            scanner.nextLine(); 
 
 
             switch (opcion) {
